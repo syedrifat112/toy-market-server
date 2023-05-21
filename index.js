@@ -28,11 +28,9 @@ async function run() {
     await client.connect();
 
     const categoryCollection = client.db("truck").collection("kidsTruck");
-    const toyCollection = client.db('truck').collection('myToys');
-
 
     app.get("/kidsTruck", async (req, res) => {
-      const cursor = categoryCollection.find();
+      const cursor = categoryCollection.find().limit(20);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -50,13 +48,7 @@ async function run() {
       res.send(result);
     });
 
-  //   app.get('/myToys', async (req, res) => {
-  //     console.log(req.query.email);
-  //     const mail = req.query.email;
-  //     const result = await toyCollection.find({sellerEmail : mail}).toArray();
-  //     res.send(result);
-  //     console.log(result)
-  // })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
