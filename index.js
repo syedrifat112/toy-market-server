@@ -30,7 +30,7 @@ async function run() {
     const categoryCollection = client.db("truck").collection("kidsTruck");
 
     app.get("/kidsTruck", async (req, res) => {
-      const cursor = categoryCollection.find().limit(20);
+      const cursor = categoryCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -47,6 +47,26 @@ async function run() {
       const result = await categoryCollection.findOne(query);
       res.send(result);
     });
+
+    app.delete('/kidsTruck/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await categoryCollection.deleteOne(query);
+      res.send(result);
+  })
+
+  app.patch('/kidsTruck/:id', async (req, res) => {
+    const id = req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const updatedToy = req.body;
+    const updateDoc = {
+        $set: {
+            status: updatedToy.status
+        },
+    };
+    const result = await categoryCollection.updateOne(filter, updateDoc);
+    res.send(result);
+})
 
 
 
