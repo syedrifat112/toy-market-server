@@ -30,13 +30,15 @@ async function run() {
     const categoryCollection = client.db("truck").collection("kidsTruck");
 
     app.get("/kidsTruck", async (req, res) => {
-      const cursor = categoryCollection.find();
+      const cursor = categoryCollection.find().limit(20);
       const result = await cursor.toArray();
       res.send(result);
     });
 
     app.post("/kidsTruck", async (req, res) => {
       const data = req.body;
+      console.log(data);
+      
       const result = await categoryCollection.insertOne(data);
       res.send(result);
     });
